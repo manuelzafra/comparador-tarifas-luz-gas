@@ -1099,7 +1099,7 @@ const diasMes=[31,28,31,30,31,30,31,31,30,31,30,31];
 // Config: pon tu Google Sheet ID aquí para editar artículos desde Sheets
 // La hoja debe tener columnas: categoria | titulo | contenido | abierto
 // Publicar: Archivo → Compartir → Publicar en la web → Hoja "articulos" → CSV
-const BLOG_SHEET_ID = ''; // Ej: '1aBcDeFgHiJkLmNoPqRsTuVwXyZ'
+const BLOG_SHEET_ID = '1D_LL5WWfkM_KMmkqOizcnJmkHa71T6imIwuzZWSsnzc';
 
 const BLOG_CATEGORIES = [
   { id:'sistema-electrico', title:'El sistema eléctrico español', icon:'bolt', color:'text-amber-500' },
@@ -1203,7 +1203,7 @@ function renderBlogArticles(articles){
 async function fetchBlogFromSheet(){
   if(!BLOG_SHEET_ID) return false;
   try{
-    const url=`https://docs.google.com/spreadsheets/d/${BLOG_SHEET_ID}/gviz/tq?tqx=out:json&sheet=articulos`;
+    const url=`https://docs.google.com/spreadsheets/d/${BLOG_SHEET_ID}/gviz/tq?tqx=out:json`;
     const res=await fetch(url);
     const text=await res.text();
     // Strip Google callback wrapper: google.visualization.Query.setResponse({...})
