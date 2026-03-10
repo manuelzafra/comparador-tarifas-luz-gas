@@ -20,7 +20,6 @@
 <meta name="twitter:title" content="Comparador de Tarifas de Luz y Gas - Ahorra en Electricidad">
 <meta name="twitter:description" content="Compara tarifas de electricidad T2, T3 y gas RL1. Calcula tu ahorro mensual y anual.">
 <meta name="twitter:image" content="https://comparadortarifasluzygas.es/og-image.png">
-<meta name="google-adsense-account" content="ca-pub-4639913934838843">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -28,10 +27,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WV2PV3Z7');</script>
 <!-- End Google Tag Manager -->
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4639913934838843"
-     crossorigin="anonymous"></script>
-<!-- End Google Adsense -->
 <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,8 +142,7 @@ tailwind.config = {
   .adsense-slot:empty, .adsense-slot:not(:has(ins)) { display: none !important; }
 </style>
 <!-- Overtracking Pixel Code -->
-<script defer src="https://cdn.overtracking.com/t/teRgTKSeAxuEgifDe/"></script>
-<!-- End Overtracking Pixel Code -->
+<script defer src="https://cdn.overtracking.com/t/tCynxd07qwQDT1SyD/"></script>
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
@@ -629,91 +623,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <!-- Modo mes T3 -->
-    <div id="t3-modo-mes">
+    <!-- Consumo 1 Mes T3 -->
+    <div id="t3-consumo-mes">
       <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4 text-sm text-blue-800">
-        T3: comparación por mes. Elige tu mes de mayor consumo para mejor estimación.
+        T3 (6.1TD): comparación por mes. Elige tu mes de mayor consumo para mejor estimación.
       </div>
-      <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
         <label class="block text-xs font-semibold text-slate-500 mb-1">Mes de comparación</label>
-        <select id="t3-mes" class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base bg-white">
+        <select id="t3-mes" class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base bg-white" onchange="buildT3CalendarioUI()">
           <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
           <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
           <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
           <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
         </select>
-      </div>
-
-      <!-- Actual T3 mes -->
-      <div class="bg-white rounded-xl border border-slate-200 overflow-hidden mb-4">
-        <div class="flex items-center gap-2 bg-slate-50 border-b border-slate-200 px-4 py-3">
-          <span class="material-symbols-outlined text-slate-500 text-xl">home</span>
-          <h3 class="font-bold text-sm">Tarifa Actual T3</h3>
-        </div>
-        <div class="p-4 space-y-4">
+        <p class="text-xs font-bold text-slate-500 mt-3">Consumo por periodo (kWh)</p>
+        <div class="grid grid-cols-3 gap-2">
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">Compañía actual</label>
-            <input type="text" id="t3-actual-nombre" placeholder="Ej: Mi compañía"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P1</label>
+            <input type="number" id="t3-cons-p1" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-2">Pega potencias de tu factura (P1-P6)</label>
-            <textarea id="t3-actual-potencias" rows="4"
-              placeholder="Periodo P1 (01/12/2024 - 31/12/2024): 13,5000 kW * 0,042931 €/kW día * 31 días 17,97 €&#10;Periodo P2 ..."
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-sm font-mono"></textarea>
-            <p class="text-[11px] text-slate-400 mt-1">Se extraerá kW y €/kW/día para P1-P6.</p>
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P2</label>
+            <input type="number" id="t3-cons-p2" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-2">Pega precios energía de tu factura (P1-P6)</label>
-            <textarea id="t3-actual-energia" rows="3"
-              placeholder="Precio P1: 0,150 €/kWh&#10;Precio P2: 0,140 €/kWh&#10;..."
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-sm font-mono"></textarea>
-          </div>
-          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
-            <input type="number" id="t3-actual-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
-          </div>
-        </div>
-      </div>
-
-      <!-- Nueva T3 mes -->
-      <div class="bg-white rounded-xl border-2 border-primary overflow-hidden">
-        <div class="flex items-center justify-between bg-primary/10 border-b border-primary/20 px-4 py-3">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-xl">stars</span>
-            <h3 class="font-bold text-sm">Oferta Nueva T3</h3>
-          </div>
-          <button onclick="resetNuevaOferta()" class="text-[11px] font-semibold text-red-500 border border-red-300 rounded-full px-2 py-1 active:scale-95">Limpiar</button>
-        </div>
-        <div class="p-4 space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">Compañía nueva</label>
-            <input type="text" id="t3-nueva-nombre" placeholder="Ej: Oferta T3"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P3</label>
+            <input type="number" id="t3-cons-p3" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-2">Pega potencias de la oferta (P1-P6)</label>
-            <textarea id="t3-nueva-potencias" rows="4" placeholder="Pega aqui los datos de potencia..."
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-sm font-mono"></textarea>
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P4</label>
+            <input type="number" id="t3-cons-p4" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-2">Pega precios energía de la oferta (P1-P6)</label>
-            <textarea id="t3-nueva-energia" rows="3" placeholder="Pega aqui los precios de energia..."
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-sm font-mono"></textarea>
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P5</label>
+            <input type="number" id="t3-cons-p5" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
-          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
-            <input type="number" id="t3-nueva-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1">P6</label>
+            <input type="number" id="t3-cons-p6" inputmode="decimal" step="0.01" placeholder="0"
+              class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">
           </div>
         </div>
       </div>
-    </div><!-- /t3-modo-mes -->
+    </div>
 
-    <!-- Modo varios meses T3 -->
-    <div id="t3-modo-varios" class="hidden space-y-4">
-      <!-- Consumos mensuales (compartidos) -->
+    <!-- Consumo 12 Meses T3 -->
+    <div id="t3-tabla-meses" class="hidden">
       <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div class="flex items-center gap-2 bg-slate-50 border-b border-slate-200 px-4 py-3">
           <span class="material-symbols-outlined text-blue-500 text-xl">table_chart</span>
@@ -728,49 +688,147 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </div>
-      <!-- Tarifa Actual T3 12 meses -->
-      <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div class="flex items-center gap-2 bg-slate-50 border-b border-slate-200 px-4 py-3">
-          <span class="material-symbols-outlined text-slate-500 text-xl">home</span>
-          <h3 class="font-bold text-sm">Tarifa Actual T3</h3>
+    </div>
+
+    <!-- Potencia compartida T3 (naranja) -->
+    <div id="t3-potencia-compartida" class="bg-orange-50 border border-orange-200 rounded-xl p-4">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm font-bold text-orange-700 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">electric_meter</span>
+          Potencia contratada
+        </p>
+        <span class="text-xs text-orange-500">Se aplica a ambas tarifas</span>
+      </div>
+      <!-- Zone selector -->
+      <div class="flex items-center gap-4 mb-3 p-2 bg-orange-100/50 rounded-lg">
+        <span class="text-xs font-bold text-orange-700">Zona:</span>
+        <label class="flex items-center gap-1 text-xs font-semibold cursor-pointer">
+          <input type="radio" name="t3-zona" value="peninsula" checked onchange="cambiarZonaT3()" class="accent-orange-600 w-3.5 h-3.5"> Península
+        </label>
+        <label class="flex items-center gap-1 text-xs font-semibold cursor-pointer">
+          <input type="radio" name="t3-zona" value="baleares" onchange="cambiarZonaT3()" class="accent-orange-600 w-3.5 h-3.5"> Baleares
+        </label>
+      </div>
+      <!-- 6 kW inputs grid 3x2 -->
+      <div class="grid grid-cols-3 gap-2">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P1 (kW)</label>
+          <input type="number" id="t3-pot-p1-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
         </div>
-        <div class="p-4 space-y-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">Compañía actual</label>
-            <input type="text" id="t3v-actual-nombre" placeholder="Ej: Mi compañía"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
-          </div>
-          <p class="text-xs font-bold text-slate-500">Precios por periodo (P1-P6)</p>
-          <div id="t3v-actual-precios" class="space-y-2"></div>
-          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
-            <input type="number" id="t3v-actual-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
-          </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P2 (kW)</label>
+          <input type="number" id="t3-pot-p2-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P3 (kW)</label>
+          <input type="number" id="t3-pot-p3-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P4 (kW)</label>
+          <input type="number" id="t3-pot-p4-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P5 (kW)</label>
+          <input type="number" id="t3-pot-p5-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">P6 (kW)</label>
+          <input type="number" id="t3-pot-p6-kw" inputmode="decimal" step="0.001" placeholder="13.5"
+            class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center bg-white">
         </div>
       </div>
-      <!-- Oferta Nueva T3 12 meses -->
-      <div class="bg-white rounded-xl border-2 border-primary overflow-hidden">
-        <div class="flex items-center justify-between bg-primary/10 border-b border-primary/20 px-4 py-3">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-xl">stars</span>
-            <h3 class="font-bold text-sm">Oferta Nueva T3</h3>
-          </div>
-          <button onclick="resetNuevaOferta()" class="text-[11px] font-semibold text-red-500 border border-red-300 rounded-full px-2 py-1 active:scale-95">Limpiar</button>
+      <!-- Calendar collapsible -->
+      <details class="mt-3">
+        <summary class="text-xs font-semibold text-orange-700 cursor-pointer flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">calendar_month</span>
+          Ver calendario de periodos
+        </summary>
+        <div id="t3-calendario-container" class="mt-2 overflow-x-auto"></div>
+      </details>
+    </div>
+
+    <!-- Sub-tabs: Tu tarifa / Nueva oferta -->
+    <div id="t3-subtabs" class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div class="flex border-b border-slate-200">
+        <button onclick="cambiarSubtab('t3','actual')" id="t3-subtab-actual"
+          class="subtab-btn flex-1 active-subtab flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">home</span> Tu tarifa
+        </button>
+        <button onclick="cambiarSubtab('t3','nueva')" id="t3-subtab-nueva"
+          class="subtab-btn flex-1 flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">stars</span> Nueva oferta
+        </button>
+      </div>
+
+      <!-- Panel: Tu tarifa actual T3 -->
+      <div id="t3-panel-actual" class="p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <label class="block text-xs font-semibold text-slate-500">Compañía actual</label>
+          <button id="t3-lock-btn" onclick="toggleLock('t3')" class="flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-primary transition-colors" title="Bloquear tarifa actual">
+            <span class="material-symbols-outlined text-base" id="t3-lock-icon">lock_open</span>
+            <span id="t3-lock-text">Bloquear</span>
+          </button>
         </div>
-        <div class="p-4 space-y-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">Compañía nueva</label>
-            <input type="text" id="t3v-nueva-nombre" placeholder="Ej: Oferta T3"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
+        <input type="text" id="t3-actual-nombre" placeholder="Ej: Mi compañía"
+          class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
+        <!-- Precios potencia -->
+        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-bold text-orange-700">Precio potencia</p>
+            <div class="flex gap-2">
+              <label class="flex items-center gap-1 text-[11px] cursor-pointer"><input type="radio" name="t3-actual-unit-pot" value="dia" checked class="accent-primary w-3.5 h-3.5"> €/kW/día</label>
+              <label class="flex items-center gap-1 text-[11px] cursor-pointer"><input type="radio" name="t3-actual-unit-pot" value="ano" class="accent-primary w-3.5 h-3.5"> €/kW/año</label>
+            </div>
           </div>
-          <p class="text-xs font-bold text-slate-500">Precios por periodo (P1-P6)</p>
-          <div id="t3v-nueva-precios" class="space-y-2"></div>
-          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
-            <input type="number" id="t3v-nueva-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
-              class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
+          <div id="t3-actual-precios-pot" class="grid grid-cols-3 gap-2"></div>
+        </div>
+        <!-- Precios energía -->
+        <div class="bg-green-50 border border-green-200 rounded-xl p-3">
+          <p class="text-xs font-bold text-green-700 mb-2">Precio energía (€/kWh)</p>
+          <div id="t3-actual-precios-en" class="grid grid-cols-3 gap-2"></div>
+        </div>
+        <!-- Descuento -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+          <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
+          <input type="number" id="t3-actual-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
+            class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
+        </div>
+      </div>
+
+      <!-- Panel: Nueva oferta T3 -->
+      <div id="t3-panel-nueva" class="hidden p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <label class="block text-xs font-semibold text-slate-500">Compañía nueva</label>
+          <button onclick="resetNuevaOferta()" class="text-xs font-semibold text-red-500 border border-red-300 rounded-full px-2.5 py-1 active:scale-95">Limpiar</button>
+        </div>
+        <input type="text" id="t3-nueva-nombre" placeholder="Ej: Oferta T3"
+          class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base">
+        <!-- Precios potencia -->
+        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-bold text-orange-700">Precio potencia</p>
+            <div class="flex gap-2">
+              <label class="flex items-center gap-1 text-[11px] cursor-pointer"><input type="radio" name="t3-nueva-unit-pot" value="dia" checked class="accent-primary w-3.5 h-3.5"> €/kW/día</label>
+              <label class="flex items-center gap-1 text-[11px] cursor-pointer"><input type="radio" name="t3-nueva-unit-pot" value="ano" class="accent-primary w-3.5 h-3.5"> €/kW/año</label>
+            </div>
           </div>
+          <div id="t3-nueva-precios-pot" class="grid grid-cols-3 gap-2"></div>
+        </div>
+        <!-- Precios energía -->
+        <div class="bg-green-50 border border-green-200 rounded-xl p-3">
+          <p class="text-xs font-bold text-green-700 mb-2">Precio energía (€/kWh)</p>
+          <div id="t3-nueva-precios-en" class="grid grid-cols-3 gap-2"></div>
+        </div>
+        <!-- Descuento -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+          <label class="block text-xs font-bold text-blue-700 mb-1">Descuento energía (%)</label>
+          <input type="number" id="t3-nueva-dto" inputmode="decimal" step="0.1" placeholder="0" value="0"
+            class="w-full border-2 border-slate-200 rounded-lg px-3 py-3 text-base text-center">
         </div>
       </div>
     </div>
@@ -856,76 +914,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
-  <!-- ===== BLOG / CONTENIDO SEO ===== -->
+  <!-- ===== BLOG / CONTENIDO EDITORIAL ===== -->
   <section id="blog-section" class="space-y-4">
+
+    <!-- Autor + Intro -->
     <div class="bg-white rounded-xl border border-slate-200 p-5">
-      <h2 id="blog-title" class="text-lg font-bold text-text-dark mb-4 flex items-center gap-2">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-11 h-11 bg-bg-dark rounded-full flex items-center justify-center text-primary font-bold text-base shrink-0">MZ</div>
+        <div>
+          <p class="font-bold text-sm text-text-dark">Manuel Zafra</p>
+          <p class="text-xs text-slate-500">Ingeniero · Fundador de LIVINK · Escribo para que entiendas tu factura sin necesitar un máster en energía</p>
+        </div>
+      </div>
+      <h2 class="text-lg font-bold text-text-dark mb-2 flex items-center gap-2">
         <span class="material-symbols-outlined text-primary text-xl">school</span>
-        Guía rápida: entiende tu factura
+        Entiende tu energía
       </h2>
+      <p class="text-sm text-slate-600">Aquí tienes todo lo que necesitas saber sobre cómo funciona la electricidad y el gas en España: desde cómo se genera la energía hasta cómo se forman los precios que aparecen en tu factura. Información práctica, sin tecnicismos innecesarios. Si quieres profundizar, despliega cada artículo.</p>
+    </div>
 
-      <details id="blog-t2-guide" class="group border border-slate-100 rounded-lg mb-2">
-        <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors">
-          <span class="text-sm font-semibold text-text-dark">¿Qué es la tarifa T2 (2.0TD)?</span>
-          <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform text-base">expand_more</span>
-        </summary>
-        <div class="px-4 pb-4 text-sm text-slate-600 space-y-2">
-          <p>La <strong>tarifa 2.0TD</strong> es la que tienen la mayoría de hogares en España (potencia contratada hasta 15 kW). Tiene <strong>3 periodos horarios</strong>:</p>
-          <ul class="list-disc list-inside space-y-1 pl-2">
-            <li><strong>Punta</strong> (10h-14h y 18h-22h): precio más alto</li>
-            <li><strong>Llano</strong> (8h-10h, 14h-18h y 22h-24h): precio intermedio</li>
-            <li><strong>Valle</strong> (0h-8h y fines de semana/festivos): precio más bajo</li>
-          </ul>
-          <p>Tu factura tiene dos componentes principales: <strong>potencia</strong> (fijo, por la capacidad contratada) y <strong>energía</strong> (variable, por lo que consumes).</p>
-        </div>
-      </details>
+    <!-- Artículos renderizados dinámicamente desde BLOG_ARTICLES (JS) o Google Sheets -->
+    <div id="blog-articles-container"></div>
 
-      <details id="blog-gas-guide" class="group border border-slate-100 rounded-lg mb-2">
-        <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors">
-          <span class="text-sm font-semibold text-text-dark">¿Cómo funciona la tarifa de gas RL1?</span>
-          <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform text-base">expand_more</span>
-        </summary>
-        <div class="px-4 pb-4 text-sm text-slate-600 space-y-2">
-          <p>La tarifa <strong>RL1</strong> es para consumos domésticos de gas natural (hasta 5.000 kWh/año aprox.). Se compone de:</p>
-          <ul class="list-disc list-inside space-y-1 pl-2">
-            <li><strong>Término fijo</strong>: cuota diaria independiente del consumo</li>
-            <li><strong>Término variable</strong>: precio por cada kWh que consumes</li>
-          </ul>
-          <p>A diferencia de la electricidad, el gas no tiene periodos horarios: el precio es el mismo las 24h.</p>
-        </div>
-      </details>
-
-      <details id="blog-tips" class="group border border-slate-100 rounded-lg mb-2">
-        <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors">
-          <span class="text-sm font-semibold text-text-dark">5 consejos para ahorrar en luz y gas</span>
-          <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform text-base">expand_more</span>
-        </summary>
-        <div class="px-4 pb-4 text-sm text-slate-600 space-y-2">
-          <ol class="list-decimal list-inside space-y-1 pl-2">
-            <li><strong>Compara ofertas</strong> regularmente: el mercado cambia cada 3-6 meses</li>
-            <li><strong>Ajusta tu potencia</strong>: si nunca saltan los plomos, quizá estés pagando de más</li>
-            <li><strong>Concentra consumos</strong> en horario valle (noches y fines de semana)</li>
-            <li><strong>Revisa descuentos</strong>: muchas comercializadoras ofrecen dto. web o dto. bono social</li>
-            <li><strong>Cuidado con las permanencias</strong>: algunas ofertas baratas incluyen penalización</li>
-          </ol>
-        </div>
-      </details>
-
-      <details id="blog-where-data" class="group border border-slate-100 rounded-lg">
-        <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors">
-          <span class="text-sm font-semibold text-text-dark">¿Dónde encuentro los precios de mi tarifa?</span>
-          <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform text-base">expand_more</span>
-        </summary>
-        <div class="px-4 pb-4 text-sm text-slate-600 space-y-2">
-          <p>Puedes encontrar los precios de tu tarifa actual en:</p>
-          <ul class="list-disc list-inside space-y-1 pl-2">
-            <li>Tu última <strong>factura</strong> (apartado "Detalle de la factura")</li>
-            <li>El <strong>área de clientes</strong> de tu comercializadora</li>
-            <li>Tu <strong>contrato</strong> o condiciones particulares</li>
-          </ul>
-          <p>Para la nueva oferta, busca la <strong>ficha de producto</strong> o el email con la propuesta comercial.</p>
-        </div>
-      </details>
+  </section>
+  <!-- ===== EMPRESAS AMIGAS ===== -->
+  <section id="empresas-amigas">
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+      <h2 class="text-lg font-bold text-text-dark mb-1 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl">handshake</span>
+        Espacio para empresas amigas
+      </h2>
+      <p class="text-sm text-slate-500 mb-4">Aprovechamos el tráfico de esta web para recomendar empresas de nuestros amigos.</p>
+      <div class="grid grid-cols-2 gap-3" id="empresas-amigas-grid">
+        <!-- Slot 1 -->
+        <a href="#" class="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-[120px] hover:border-primary/40 hover:bg-primary/5 transition-colors">
+          <span class="material-symbols-outlined text-slate-300 text-3xl mb-1">add_photo_alternate</span>
+          <p class="text-[11px] text-slate-400 text-center">Tu anuncio aquí</p>
+        </a>
+        <!-- Slot 2 -->
+        <a href="#" class="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-[120px] hover:border-primary/40 hover:bg-primary/5 transition-colors">
+          <span class="material-symbols-outlined text-slate-300 text-3xl mb-1">add_photo_alternate</span>
+          <p class="text-[11px] text-slate-400 text-center">Tu anuncio aquí</p>
+        </a>
+        <!-- Slot 3 -->
+        <a href="#" class="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-[120px] hover:border-primary/40 hover:bg-primary/5 transition-colors">
+          <span class="material-symbols-outlined text-slate-300 text-3xl mb-1">add_photo_alternate</span>
+          <p class="text-[11px] text-slate-400 text-center">Tu anuncio aquí</p>
+        </a>
+        <!-- Slot 4 -->
+        <a href="#" class="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-[120px] hover:border-primary/40 hover:bg-primary/5 transition-colors">
+          <span class="material-symbols-outlined text-slate-300 text-3xl mb-1">add_photo_alternate</span>
+          <p class="text-[11px] text-slate-400 text-center">Tu anuncio aquí</p>
+        </a>
+      </div>
+      <p class="text-[10px] text-slate-400 mt-3 text-center">¿Tienes una empresa y quieres aparecer aquí? Escríbenos a <strong>manuel@livink.es</strong></p>
     </div>
   </section>
 
@@ -937,7 +979,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <footer id="footer" class="text-center text-xs text-slate-400 pb-4">
     <p>Herramienta gratuita — sin registro — datos solo en tu dispositivo</p>
-    <p class="mt-1">LIVINK &copy; 2026</p>
+    <p class="mt-1">LIVINK &copy; 2026 · Contenido escrito por Manuel Zafra</p>
   </footer>
 
 </main>
@@ -1052,6 +1094,158 @@ const consumosT2Default={meses:['Marzo','Abril','Mayo','Junio','Julio','Agosto',
 const consumosGasDefault={meses:['Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero'],dias:[28,31,30,31,30,31,31,30,31,30,31,31],kwh:[35,700,340,300,120,100,35,90,340,500,910,800]};
 const diasMes=[31,28,31,30,31,30,31,31,30,31,30,31];
 
+// T3 6.1TD: Month groups by zone — A=P1/P2, B=P2/P3, B1=P3/P4, C=P4/P5
+// ===== BLOG CMS: artículos + Google Sheets =====
+// Config: pon tu Google Sheet ID aquí para editar artículos desde Sheets
+// La hoja debe tener columnas: categoria | titulo | contenido | abierto
+// Publicar: Archivo → Compartir → Publicar en la web → Hoja "articulos" → CSV
+const BLOG_SHEET_ID = ''; // Ej: '1aBcDeFgHiJkLmNoPqRsTuVwXyZ'
+
+const BLOG_CATEGORIES = [
+  { id:'sistema-electrico', title:'El sistema eléctrico español', icon:'bolt', color:'text-amber-500' },
+  { id:'sistema-gas', title:'El sistema de gas en España', icon:'local_fire_department', color:'text-orange-500' },
+  { id:'presente-futuro', title:'Presente y futuro de la energía', icon:'trending_up', color:'text-blue-500' },
+  { id:'guia-practica', title:'Guía práctica: tu factura', icon:'lightbulb', color:'text-green-600' }
+];
+
+const BLOG_ARTICLES = [
+  // ---- SISTEMA ELÉCTRICO ----
+  { cat:'sistema-electrico', title:'¿Cómo se genera la electricidad en España?', open:true,
+    html:'<p>España genera electricidad con un <strong>mix diverso de tecnologías</strong>. Las principales fuentes son:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Eólica</strong>: los parques de viento son la primera fuente de generación, con más del 20% del total.</li><li><strong>Nuclear</strong>: las 5 centrales activas aportan una base estable (~20%), funcionando 24h sin emisiones de CO₂.</li><li><strong>Solar fotovoltaica</strong>: ha crecido de forma explosiva. España es líder europeo en irradiación solar.</li><li><strong>Ciclo combinado (gas)</strong>: centrales de gas natural que entran cuando no hay suficiente renovable. Son las que encarecen el precio.</li><li><strong>Hidráulica</strong>: los embalses actúan como batería natural, generando cuando se necesita.</li></ul><p>Toda esa electricidad viaja por la <strong>red de transporte</strong> (líneas de alta tensión operadas por <strong>Redeia</strong>, antes Red Eléctrica) hasta las redes de distribución locales, que la llevan a tu enchufe. En los últimos años, las renovables ya superan el <strong>50% de la generación</strong> anual.</p>' },
+  { cat:'sistema-electrico', title:'¿Cómo se forma el precio de la electricidad?', open:false,
+    html:'<p>El precio de la electricidad tiene <strong>tres capas</strong>:</p><ol class="list-decimal list-inside space-y-1 pl-2"><li><strong>Precio mayorista (pool)</strong>: se fija cada día en una subasta gestionada por OMIE. Las centrales ofertan su precio y la última en entrar (normalmente gas) fija el precio para todas. Este es el famoso <strong>sistema marginalista</strong>.</li><li><strong>Peajes y cargos</strong>: costes regulados por el Gobierno que pagan el mantenimiento de las redes, las primas a renovables, etc.</li><li><strong>Impuestos</strong>: IVA + impuesto eléctrico.</li></ol><p>Si tienes <strong>PVPC</strong> (tarifa regulada), pagas el precio del pool hora a hora. Si tienes <strong>mercado libre</strong>, tu comercializadora te fija un precio que ya incluye su margen.</p>' },
+  { cat:'sistema-electrico', title:'¿Qué es el MIBEL?', open:false,
+    html:'<p>El <strong>MIBEL</strong> (Mercado Ibérico de la Electricidad) es el mercado conjunto de electricidad de España y Portugal, operativo desde 2007. Tiene dos operadores:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>OMIE</strong> (Madrid): gestiona el mercado diario e intradiario. Aquí se casa la oferta y demanda hora a hora.</li><li><strong>OMIP</strong> (Lisboa): gestiona el mercado de futuros, donde se negocian contratos a plazo.</li></ul><p>La integración permite que la electricidad fluya entre ambos países según quién tenga excedente. Cuando las líneas de interconexión se saturan, los precios pueden diferir. El MIBEL fue pionero en Europa como mercado regional integrado.</p>' },
+  { cat:'sistema-electrico', title:'Distribuidora vs. comercializadora: ¿cuál es la diferencia?', open:true,
+    html:'<p>Es una de las confusiones más habituales:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Distribuidora</strong>: es la dueña de los cables y contadores de tu zona. Es un <strong>monopolio regulado</strong>: no puedes elegirla, te corresponde por tu dirección.</li><li><strong>Comercializadora</strong>: es la empresa que te <strong>vende la energía</strong>. Esta SÍ la eliges tú y hay cientos donde elegir.</li></ul><p>Una analogía útil: la distribuidora es como la empresa que construyó la carretera; la comercializadora es el servicio de transporte que circula por ella. Puedes cambiar de comercializadora en cualquier momento, es gratuito y no te van a cortar la luz.</p>' },
+  { cat:'sistema-electrico', title:'Las 5 distribuidoras eléctricas y cómo saber cuál es la tuya', open:false,
+    html:'<p>En España hay <strong>5 grandes distribuidoras</strong> que cubren más del 95% del territorio:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>e-distribución</strong> (grupo Endesa): sur y este de España, Canarias y Baleares.</li><li><strong>i-DE</strong> (grupo Iberdrola): norte, centro y noroeste.</li><li><strong>UFD</strong> (grupo Naturgy): Cataluña, Madrid, Galicia y otras zonas.</li><li><strong>Viesgo</strong> (grupo Repsol): Cantabria, Asturias y zonas limítrofes.</li><li><strong>E-Redes</strong> (grupo EDP): noroeste peninsular.</li></ul><p>Tu <strong>CUPS</strong> (Código Universal de Punto de Suministro) es un identificador de 20-22 caracteres que aparece en tu factura. Empieza por "ES" seguido de 4 dígitos que identifican a tu distribuidora. Buscar "CUPS" en tu factura te dirá exactamente quién es.</p>' },
+  { cat:'sistema-electrico', title:'¿Qué impuestos se pagan en la factura de la luz?', open:false,
+    html:'<p>Tu factura de electricidad incluye <strong>dos impuestos</strong> principales:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Impuesto Especial sobre la Electricidad</strong>: históricamente el 5,11%, fue reducido al 0,5% como medida anticrisis en 2022. Su tipo actual depende de las prórrogas del Gobierno.</li><li><strong>IVA</strong>: tipo general del 21%. Durante la crisis energética (2022-2023) se redujo temporalmente al 5% y luego al 10%.</li></ul><p>Además hay <strong>peajes de acceso</strong> (fijados por la CNMC) y <strong>cargos del sistema</strong> (fijados por el Ministerio). No son impuestos pero sí están regulados y no puedes negociarlos con tu comercializadora.</p>' },
+  // ---- SISTEMA DE GAS ----
+  { cat:'sistema-gas', title:'¿Cómo funciona el sistema de gas natural en España?', open:true,
+    html:'<p>España <strong>no produce gas natural</strong> en cantidades significativas: importa prácticamente el 100%. El gas llega de dos formas:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Por gasoducto</strong>: desde Argelia a través del Medgaz (submarino, conecta Beni Saf con Almería).</li><li><strong>Por barco como GNL</strong>: Gas Natural Licuado que llega en buques metaneros a las plantas de regasificación, donde se convierte de líquido (-160°C) a gas.</li></ul><p>Una vez en estado gaseoso, viaja por la <strong>red de transporte</strong> de alta presión (operada por Enagás) hasta las redes de distribución locales. A diferencia de la electricidad, el gas no tiene periodos horarios: <strong>el precio es el mismo las 24 horas</strong>.</p>' },
+  { cat:'sistema-gas', title:'¿Qué es Enagás?', open:false,
+    html:'<p><strong>Enagás</strong> es el gestor técnico del sistema gasista español (el equivalente de Redeia para el gas). Sus funciones:</p><ul class="list-disc list-inside space-y-1 pl-2"><li>Operar unos <strong>12.000 km de gasoductos</strong> de alta presión.</li><li>Gestionar <strong>6 plantas de regasificación</strong>: Barcelona, Huelva, Cartagena, Bilbao, Sagunto y El Musel (Gijón).</li><li>Administrar los <strong>almacenamientos subterráneos</strong> de gas (Yela, Serrablo, Gaviota, Marismas).</li></ul><p>España tiene la <strong>mayor capacidad de regasificación de toda la UE</strong>, lo que le permite recibir GNL de cualquier proveedor del mundo. Una ventaja estratégica enorme frente a países que dependen de gasoductos fijos.</p>' },
+  { cat:'sistema-gas', title:'¿De dónde viene el gas que se consume en España?', open:false,
+    html:'<p>Los principales proveedores han cambiado mucho en los últimos años:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Estados Unidos</strong> (~30-35%): mayor proveedor gracias al gas de esquisto, llega como GNL.</li><li><strong>Argelia</strong> (~25%): socio histórico. Llega por gasoducto Medgaz y también como GNL.</li><li><strong>Nigeria</strong> (~10-12%): GNL por barco.</li><li><strong>Otros</strong>: Qatar, Trinidad y Tobago, Noruega, Rusia (cantidades muy reducidas tras 2022).</li></ul><p>España ha <strong>diversificado enormemente</strong> sus fuentes desde 2022, cuando la dependencia de Argelia superaba el 45%. Su capacidad de recibir GNL de cualquier parte del mundo la convierte en potencial <strong>hub gasista del sur de Europa</strong>.</p>' },
+  { cat:'sistema-gas', title:'¿Qué impuestos se pagan en la factura del gas?', open:false,
+    html:'<p>La factura de gas tiene una estructura impositiva distinta:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Impuesto Especial sobre Hidrocarburos</strong>: un céntimo fijo por kWh consumido (aprox. 0,00234 €/kWh). Se aplica sobre el volumen.</li><li><strong>IVA</strong>: tipo general del 21% sobre el total. Como en la electricidad, ha habido reducciones temporales.</li></ul><p>La factura de gas es más simple: <strong>término fijo</strong> (€/día, por estar conectado) + <strong>término variable</strong> (€/kWh consumido) + impuestos. No hay peajes desglosados aparte.</p>' },
+  // ---- PRESENTE Y FUTURO ----
+  { cat:'presente-futuro', title:'¿Cuál es el problema actual del sistema eléctrico ibérico?', open:false,
+    html:'<p>El sistema eléctrico de España y Portugal enfrenta varios desafíos:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>El sistema marginalista y el gas</strong>: cuando las renovables no cubren toda la demanda, entran centrales de gas que fijan el precio para todas las tecnologías.</li><li><strong>Interconexiones insuficientes</strong>: España solo puede intercambiar ~5% de su capacidad con Francia, lejos del 15% que recomienda la UE.</li><li><strong>Exceso de renovables sin almacenamiento</strong>: días de tanta producción solar y eólica que los precios caen a cero, pero sin baterías para guardar esa energía.</li><li><strong>La "excepción ibérica"</strong>: mecanismo temporal que topó el precio del gas para la generación eléctrica. Funcionó como parche pero no resuelve el problema de fondo.</li></ul>' },
+  { cat:'presente-futuro', title:'¿Cuál es el futuro del sistema eléctrico?', open:false,
+    html:'<p>Los próximos años van a transformar radicalmente cómo producimos y consumimos energía:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Más renovables</strong>: el PNIEC apunta a más del 80% renovable para 2030. España tiene sol y viento de sobra.</li><li><strong>Almacenamiento</strong>: baterías a gran escala, bombeo hidráulico e hidrógeno verde.</li><li><strong>Autoconsumo</strong>: placas solares en tejados y comunidades energéticas locales.</li><li><strong>Electrificación total</strong>: coches eléctricos, bombas de calor, cocinas de inducción.</li><li><strong>Nuevas interconexiones</strong>: el proyecto BarMar (Barcelona-Marsella) reforzará la conexión con Europa.</li><li><strong>Reforma del mercado</strong>: la UE está revisando el diseño marginalista para reflejar mejor el coste real de las renovables.</li></ul>' },
+  // ---- GUÍA PRÁCTICA ----
+  { cat:'guia-practica', title:'¿Qué es la tarifa T2 (2.0TD)?', open:false,
+    html:'<p>La <strong>tarifa 2.0TD</strong> es la que tienen la mayoría de hogares en España (potencia contratada hasta 15 kW). Tiene <strong>3 periodos horarios</strong>:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Punta</strong> (10h-14h y 18h-22h): precio más alto</li><li><strong>Llano</strong> (8h-10h, 14h-18h y 22h-24h): precio intermedio</li><li><strong>Valle</strong> (0h-8h y fines de semana/festivos): precio más bajo</li></ul><p>Tu factura tiene dos componentes: <strong>potencia</strong> (fijo, por la capacidad contratada) y <strong>energía</strong> (variable, por lo que consumes).</p>' },
+  { cat:'guia-practica', title:'¿Qué es la tarifa T3 (6.1TD) y cuándo aplica?', open:false,
+    html:'<p>La <strong>tarifa 6.1TD</strong> (T3 en este comparador) es para suministros con <strong>potencia superior a 15 kW</strong>. Típica de pequeñas industrias, talleres y comunidades de propietarios. Tiene <strong>6 periodos horarios</strong> (P1 a P6):</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>P1</strong> (el más caro): horas punta de meses de alta demanda.</li><li><strong>P2-P5</strong>: precios intermedios según hora y mes del año.</li><li><strong>P6</strong> (el más barato): madrugadas (0h-8h) y fines de semana/festivos.</li></ul><p>Los periodos varían según la zona geográfica. Usa nuestro comparador T3 con el <strong>calendario de periodos</strong> integrado.</p>' },
+  { cat:'guia-practica', title:'¿Cómo funciona la tarifa de gas RL1?', open:false,
+    html:'<p>La tarifa <strong>RL1</strong> es para consumos domésticos de gas natural (hasta 5.000 kWh/año aprox.). Se compone de:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>Término fijo</strong>: cuota diaria independiente del consumo</li><li><strong>Término variable</strong>: precio por cada kWh que consumes</li></ul><p>A diferencia de la electricidad, el gas no tiene periodos horarios: el precio es el mismo las 24h.</p>' },
+  { cat:'guia-practica', title:'PVPC vs. mercado libre: ¿qué me conviene?', open:false,
+    html:'<p>En España tienes dos opciones para contratar la luz:</p><ul class="list-disc list-inside space-y-1 pl-2"><li><strong>PVPC</strong>: tarifa regulada. Pagas el precio del pool hora a hora. Puede ser muy barata con mucha renovable, pero también subir bruscamente.</li><li><strong>Mercado libre</strong>: precio fijo o indexado con tope. Más previsibilidad pero incluye margen comercial.</li></ul><p><strong>¿Cuándo el PVPC?</strong> Si concentras consumos en horas baratas y toleras la variabilidad. <strong>¿Cuándo el libre?</strong> Si prefieres saber lo que pagas cada mes.</p>' },
+  { cat:'guia-practica', title:'5 consejos para ahorrar en luz y gas', open:false,
+    html:'<ol class="list-decimal list-inside space-y-1 pl-2"><li><strong>Compara ofertas</strong> regularmente: el mercado cambia cada 3-6 meses.</li><li><strong>Ajusta tu potencia</strong>: si nunca saltan los plomos, quizá estés pagando de más.</li><li><strong>Concentra consumos</strong> en horario valle (noches y fines de semana).</li><li><strong>Revisa descuentos</strong>: muchas comercializadoras ofrecen dto. web o bono social.</li><li><strong>Cuidado con las permanencias</strong>: algunas ofertas baratas incluyen penalización.</li></ol>' },
+  { cat:'guia-practica', title:'¿Dónde encuentro los precios de mi tarifa?', open:false,
+    html:'<p>Puedes encontrar los precios de tu tarifa actual en:</p><ul class="list-disc list-inside space-y-1 pl-2"><li>Tu última <strong>factura</strong> (apartado "Detalle de la factura")</li><li>El <strong>área de clientes</strong> de tu comercializadora</li><li>Tu <strong>contrato</strong> o condiciones particulares</li></ul><p>Para la nueva oferta, busca la <strong>ficha de producto</strong> o el email con la propuesta comercial.</p>' }
+];
+
+// Simple markdown → HTML converter for Google Sheets content
+function sheetMdToHtml(md){
+  if(!md) return '';
+  return md
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .split(/\n\n+/).map(block=>{
+      block=block.trim();
+      if(!block) return '';
+      // Bullet list
+      if(/^- /.test(block)){
+        const items=block.split(/\n/).map(l=>l.replace(/^- /,'').trim()).filter(Boolean);
+        return '<ul class="list-disc list-inside space-y-1 pl-2">'+items.map(i=>'<li>'+i+'</li>').join('')+'</ul>';
+      }
+      // Numbered list
+      if(/^\d+\. /.test(block)){
+        const items=block.split(/\n/).map(l=>l.replace(/^\d+\. /,'').trim()).filter(Boolean);
+        return '<ol class="list-decimal list-inside space-y-1 pl-2">'+items.map(i=>'<li>'+i+'</li>').join('')+'</ol>';
+      }
+      return '<p>'+block.replace(/\n/g,' ')+'</p>';
+    }).join('');
+}
+
+function renderBlogArticles(articles){
+  const container=document.getElementById('blog-articles-container');
+  if(!container) return;
+  container.innerHTML='';
+  BLOG_CATEGORIES.forEach(cat=>{
+    const catArticles=articles.filter(a=>a.cat===cat.id);
+    if(!catArticles.length) return;
+    const card=document.createElement('div');
+    card.className='bg-white rounded-xl border border-slate-200 p-5';
+    let html=`<h3 class="text-base font-bold text-text-dark mb-3 flex items-center gap-2">
+      <span class="material-symbols-outlined ${cat.color} text-lg">${cat.icon}</span>${cat.title}</h3>`;
+    catArticles.forEach((art,i)=>{
+      const isLast=i===catArticles.length-1;
+      html+=`<details ${art.open?'open ':'' }class="group border border-slate-100 rounded-lg ${isLast?'':'mb-2'}">
+        <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors">
+          <span class="text-sm font-semibold text-text-dark">${art.title}</span>
+          <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform text-base">expand_more</span>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-slate-600 space-y-2">${art.html}</div>
+      </details>`;
+    });
+    card.innerHTML=html;
+    container.appendChild(card);
+  });
+}
+
+// Fetch from Google Sheet (published as web CSV) and override articles
+async function fetchBlogFromSheet(){
+  if(!BLOG_SHEET_ID) return false;
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${BLOG_SHEET_ID}/gviz/tq?tqx=out:json&sheet=articulos`;
+    const res=await fetch(url);
+    const text=await res.text();
+    // Strip Google callback wrapper: google.visualization.Query.setResponse({...})
+    const json=JSON.parse(text.match(/\{.*\}/s)[0]);
+    const rows=json.table.rows;
+    const articles=rows.map(r=>{
+      const c=r.c; // columns: 0=categoria, 1=titulo, 2=contenido, 3=abierto
+      if(!c[0]||!c[1]) return null;
+      return {
+        cat:(c[0].v||'').trim(),
+        title:(c[1].v||'').trim(),
+        html: (c[2]&&c[2].v||'').trim().startsWith('<') ? c[2].v.trim() : sheetMdToHtml(c[2]&&c[2].v||''),
+        open: c[3]&&(c[3].v===true||c[3].v==='TRUE'||c[3].v==='true'||c[3].v==='SI'||c[3].v==='1')
+      };
+    }).filter(Boolean);
+    if(articles.length>0){
+      renderBlogArticles(articles);
+      return true;
+    }
+  }catch(e){ console.warn('Blog: Google Sheet no disponible, usando artículos locales',e); }
+  return false;
+}
+
+// Hours 0-7 always P6. Weekends/holidays always P6.
+const T3_ZONA_GRUPOS={
+  peninsula:['A','A','B','C','C','B1','A','C','B1','B1','B','A'],
+  baleares: ['A','A','B1','C','C','B1','A','A','B1','C','B1','B']
+};
+const T3_GRUPO_PERIODOS={A:[2,1],B:[3,2],B1:[4,3],C:[5,4]};
+// Hour pattern for hours 8-23: offPeak/peak based on group
+// 8→off, 9-13→peak, 14-17→off, 18-21→peak, 22-23→off
+const T3_HORA_PATRON=[0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0]; // 0=offPeak, 1=peak (indices 0-15 = hours 8-23)
+const T3_PERIOD_COLORS={1:'#ef4444',2:'#f97316',3:'#eab308',4:'#22c55e',5:'#3b82f6',6:'#9ca3af'};
+const T3_PERIOD_BG={1:'bg-red-500',2:'bg-orange-500',3:'bg-yellow-500',4:'bg-green-500',5:'bg-blue-500',6:'bg-gray-400'};
+
+function getT3Periodo(zona,mes,hora){
+  if(hora<8)return 6;
+  const grupo=T3_ZONA_GRUPOS[zona][mes];
+  const[offPeak,peak]=T3_GRUPO_PERIODOS[grupo];
+  return T3_HORA_PATRON[hora-8]===1?peak:offPeak;
+}
+
 let tabActual='t2';
 let modoT2='mes';
 let modoGas='mes';
@@ -1065,10 +1259,18 @@ window.addEventListener('DOMContentLoaded', () => {
   buildT2MesesUI();
   buildGasMesesUI();
   buildT3TablaUI();
+  buildT3PrecioInputs();
+  // Restore T3 zone from localStorage before building calendar
+  const savedZona=localStorage.getItem('t3_zona');
+  if(savedZona){const r=document.querySelector(`input[name="t3-zona"][value="${savedZona}"]`);if(r)r.checked=true;}
+  buildT3CalendarioUI();
   cargarDatos();
   mostrarHistorico();
   actualizarHeadersMeses();
   restaurarLocks();
+  // Blog articles: render local data immediately, then try Google Sheet override
+  renderBlogArticles(BLOG_ARTICLES);
+  fetchBlogFromSheet().then(ok=>{if(ok) console.log('Blog actualizado desde Google Sheet');});
 });
 
 // =====================
@@ -1143,38 +1345,65 @@ function buildT3TablaUI(){
           class="flex-1 border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-center bg-white">
       </div>`;
     });
-    div.innerHTML=`<div class="flex items-center justify-between mb-2">
-        <span class="font-bold text-sm text-slate-700">${p}</span>
-        <input type="number" id="t3-${pNum}-kw" inputmode="decimal" step="0.01" placeholder="kW contratados"
-          class="w-28 border border-slate-200 rounded-lg px-2 py-1 text-xs text-center bg-white">
-      </div>
+    div.innerHTML=`<span class="font-bold text-sm text-slate-700">${p}</span>
       <details class="mt-1">
         <summary class="text-xs text-primary font-semibold cursor-pointer">Ver consumos mensuales</summary>
         <div class="mt-2">${mesesInputs}</div>
       </details>`;
     container.appendChild(div);
   });
-  // Build price inputs for actual and nueva
-  buildT3PreciosUI('t3v-actual-precios');
-  buildT3PreciosUI('t3v-nueva-precios');
 }
 
-function buildT3PreciosUI(containerId){
-  const container=document.getElementById(containerId);
-  if(!container)return;
-  container.innerHTML='';
-  ['P1','P2','P3','P4','P5','P6'].forEach(p=>{
-    const pNum=p.toLowerCase();
-    const prefix=containerId.includes('actual')?'t3v-actual':'t3v-nueva';
-    const div=document.createElement('div');
-    div.className='flex items-center gap-2 bg-slate-50 rounded-lg p-2 border border-slate-200';
-    div.innerHTML=`<span class="font-bold text-xs text-slate-600 w-8 shrink-0">${p}</span>
-      <input type="number" id="${prefix}-${pNum}-precio-kw" inputmode="decimal" step="0.001" placeholder="€/kW/día"
-        class="flex-1 border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-center bg-white">
-      <input type="number" id="${prefix}-${pNum}-energia" inputmode="decimal" step="0.001" placeholder="€/kWh"
-        class="flex-1 border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-center bg-white">`;
-    container.appendChild(div);
+function buildT3PrecioInputs(){
+  // Generate P1-P6 price inputs in 4 containers
+  ['t3-actual-precios-pot','t3-actual-precios-en','t3-nueva-precios-pot','t3-nueva-precios-en'].forEach(containerId=>{
+    const container=document.getElementById(containerId);
+    if(!container)return;
+    container.innerHTML='';
+    const isPot=containerId.includes('-pot');
+    const prefix=containerId.replace('-precios-pot','').replace('-precios-en','');
+    const suffix=isPot?'pot':'en';
+    for(let j=1;j<=6;j++){
+      const div=document.createElement('div');
+      div.innerHTML=`<label class="block text-xs font-semibold text-slate-500 mb-1">P${j}</label>
+        <input type="number" id="${prefix}-${suffix}-p${j}" inputmode="decimal" step="0.001"
+          placeholder="${isPot?'0.042':'0.15'}"
+          class="w-full border-2 border-slate-200 rounded-lg px-2 py-2.5 text-base text-center">`;
+      container.appendChild(div);
+    }
   });
+}
+
+function buildT3CalendarioUI(){
+  const container=document.getElementById('t3-calendario-container');
+  if(!container)return;
+  const zona=document.querySelector('input[name="t3-zona"]:checked').value;
+  const mesesNombres=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  let html='<div class="flex gap-1 mb-1">';
+  // Period legend
+  for(let p=1;p<=6;p++){
+    html+=`<span class="inline-flex items-center gap-1 text-[10px] font-bold mr-2"><span class="inline-block w-3 h-3 rounded" style="background:${T3_PERIOD_COLORS[p]}"></span>P${p}</span>`;
+  }
+  html+='</div>';
+  html+='<table class="text-[10px] border-collapse w-full" style="min-width:420px"><thead><tr><th class="p-0.5 text-slate-400 sticky left-0 bg-orange-50 z-10">H</th>';
+  mesesNombres.forEach(m=>{html+=`<th class="p-0.5 text-slate-500">${m}</th>`;});
+  html+='</tr></thead><tbody>';
+  for(let h=0;h<24;h++){
+    html+=`<tr><td class="p-0.5 text-right text-slate-400 font-mono sticky left-0 bg-orange-50 z-10">${String(h).padStart(2,'0')}</td>`;
+    for(let m=0;m<12;m++){
+      const p=getT3Periodo(zona,m,h);
+      html+=`<td class="p-0.5 text-center text-white font-bold rounded-sm" style="background:${T3_PERIOD_COLORS[p]}">P${p}</td>`;
+    }
+    html+='</tr>';
+  }
+  html+='</tbody></table>';
+  container.innerHTML=html;
+}
+
+function cambiarZonaT3(){
+  buildT3CalendarioUI();
+  const zona=document.querySelector('input[name="t3-zona"]:checked').value;
+  localStorage.setItem('t3_zona',zona);
 }
 
 // =====================
@@ -1260,7 +1489,7 @@ function toggleLock(tipo){
 }
 
 function restaurarLocks(){
-  ['t2','gas'].forEach(tipo=>{
+  ['t2','gas','t3'].forEach(tipo=>{
     if(localStorage.getItem(tipo+'_locked')==='1'){
       const panel=document.getElementById(tipo+'-panel-actual');
       const icon=document.getElementById(tipo+'-lock-icon');
@@ -1301,11 +1530,11 @@ function cambiarModo(tipo,modo){
   }else if(tipo==='t3'){
     modoT3=modo;
     if(modo==='mes'){
-      document.getElementById('t3-modo-mes').classList.remove('hidden');
-      document.getElementById('t3-modo-varios').classList.add('hidden');
+      document.getElementById('t3-consumo-mes').classList.remove('hidden');
+      document.getElementById('t3-tabla-meses').classList.add('hidden');
     }else{
-      document.getElementById('t3-modo-mes').classList.add('hidden');
-      document.getElementById('t3-modo-varios').classList.remove('hidden');
+      document.getElementById('t3-consumo-mes').classList.add('hidden');
+      document.getElementById('t3-tabla-meses').classList.remove('hidden');
     }
   }
 }
@@ -1449,16 +1678,14 @@ function resetNuevaOferta(){
     ['gas-nueva-nombre','gas-nueva-fijo','gas-nueva-variable'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('gas-nueva-dto').value='0';
     document.querySelector('input[name="gas-nueva-unit"][value="dia"]').checked=true;
-  }else if(modoT3==='mes'){
-    ['t3-nueva-nombre','t3-nueva-potencias','t3-nueva-energia'].forEach(id=>document.getElementById(id).value='');
+  }else if(tabActual==='t3'){
+    document.getElementById('t3-nueva-nombre').value='';
     document.getElementById('t3-nueva-dto').value='0';
-  }else{
-    const el=document.getElementById('t3v-nueva-nombre');if(el)el.value='';
-    const dto=document.getElementById('t3v-nueva-dto');if(dto)dto.value='0';
-    ['p1','p2','p3','p4','p5','p6'].forEach(p=>{
-      const kw=document.getElementById(`t3v-nueva-${p}-precio-kw`);if(kw)kw.value='';
-      const en=document.getElementById(`t3v-nueva-${p}-energia`);if(en)en.value='';
-    });
+    for(let j=1;j<=6;j++){
+      const pot=document.getElementById(`t3-nueva-pot-p${j}`);if(pot)pot.value='';
+      const en=document.getElementById(`t3-nueva-en-p${j}`);if(en)en.value='';
+    }
+    document.querySelector('input[name="t3-nueva-unit-pot"][value="dia"]').checked=true;
   }
 }
 
@@ -1466,26 +1693,6 @@ function resetNuevaOferta(){
 // UTILITIES
 // =====================
 function aplicarDescuento(precio,dto){return precio*(1-dto/100);}
-
-function parsePotencias(texto){
-  const potencias={};
-  const regex=/Periodo\s+P(\d)\s*[^:]*:\s*([\d,]+)\s*kW\s*\*\s*([\d,]+)\s*€\/kW\s*día/gi;
-  let match;
-  while((match=regex.exec(texto))!==null){
-    potencias['P'+match[1]]={kw:parseFloat(match[2].replace(',','.')),precio:parseFloat(match[3].replace(',','.'))};
-  }
-  return potencias;
-}
-
-function parseEnergia(texto){
-  const precios={};
-  const regex=/P(?:recio\s+)?P(\d)[^\d]*([\d,]+)\s*€\/kWh/gi;
-  let match;
-  while((match=regex.exec(texto))!==null){
-    precios['P'+match[1]]=parseFloat(match[2].replace(',','.'));
-  }
-  return precios;
-}
 
 function copiarTarifaPlanaT2(tipo){
   const precio=parseFloat(document.getElementById(`t2-${tipo}-punta`).value);
@@ -1541,9 +1748,22 @@ function cargarDatos(){
   }
   if(datos.t3){
     document.getElementById('t3-actual-nombre').value=datos.t3.nombre||'';
-    document.getElementById('t3-actual-potencias').value=datos.t3.potencias||'';
-    document.getElementById('t3-actual-energia').value=datos.t3.energia||'';
     document.getElementById('t3-actual-dto').value=datos.t3.dto||'0';
+    // Shared potencia kW
+    for(let j=1;j<=6;j++){
+      const kwEl=document.getElementById(`t3-pot-p${j}-kw`);
+      if(kwEl&&datos.t3[`potP${j}Kw`])kwEl.value=datos.t3[`potP${j}Kw`];
+    }
+    // Actual prices
+    for(let j=1;j<=6;j++){
+      const potEl=document.getElementById(`t3-actual-pot-p${j}`);
+      const enEl=document.getElementById(`t3-actual-en-p${j}`);
+      if(potEl&&datos.t3[`actualPotP${j}`])potEl.value=datos.t3[`actualPotP${j}`];
+      if(enEl&&datos.t3[`actualEnP${j}`])enEl.value=datos.t3[`actualEnP${j}`];
+    }
+    if(datos.t3.unitPot)document.querySelector(`input[name="t3-actual-unit-pot"][value="${datos.t3.unitPot}"]`).checked=true;
+    // Zona
+    if(datos.t3.zona)document.querySelector(`input[name="t3-zona"][value="${datos.t3.zona}"]`).checked=true;
   }
 }
 
@@ -1569,12 +1789,20 @@ function guardarDatos(){
       dto:document.getElementById('gas-actual-dto').value,
       unit:document.querySelector('input[name="gas-actual-unit"]:checked').value
     },
-    t3:{
-      nombre:document.getElementById('t3-actual-nombre').value,
-      potencias:document.getElementById('t3-actual-potencias').value,
-      energia:document.getElementById('t3-actual-energia').value,
-      dto:document.getElementById('t3-actual-dto').value
-    }
+    t3:(()=>{
+      const d={
+        nombre:document.getElementById('t3-actual-nombre').value,
+        dto:document.getElementById('t3-actual-dto').value,
+        unitPot:document.querySelector('input[name="t3-actual-unit-pot"]:checked').value,
+        zona:document.querySelector('input[name="t3-zona"]:checked').value
+      };
+      for(let j=1;j<=6;j++){
+        d[`potP${j}Kw`]=document.getElementById(`t3-pot-p${j}-kw`).value;
+        d[`actualPotP${j}`]=document.getElementById(`t3-actual-pot-p${j}`).value;
+        d[`actualEnP${j}`]=document.getElementById(`t3-actual-en-p${j}`).value;
+      }
+      return d;
+    })()
   };
   localStorage.setItem('ofertaActual',JSON.stringify(datos));
 }
@@ -1697,63 +1925,62 @@ function calcular(){
       datosUsados=`Consumo anual: ${totKwh.toFixed(0)} kWh`;
     }
 
-  }else if(modoT3==='mes'){
+  }else if(tabActual==='t3'){
     nombreNueva=document.getElementById('t3-nueva-nombre').value||'Nueva T3';
-    const textoA=document.getElementById('t3-actual-potencias').value;
-    const textoN=document.getElementById('t3-nueva-potencias').value;
-    const energiaTextoA=document.getElementById('t3-actual-energia').value;
-    const energiaTextoN=document.getElementById('t3-nueva-energia').value;
-
-    if(!textoA||!textoN||!energiaTextoA||!energiaTextoN){mostrarToast('Completa potencias y energía T3','error');return;}
-
-    const potA=parsePotencias(textoA);
-    const potN=parsePotencias(textoN);
-    const enA=parseEnergia(energiaTextoA);
-    const enN=parseEnergia(energiaTextoN);
-
-    if(Object.keys(potA).length<6||Object.keys(potN).length<6){mostrarToast('No se detectaron 6 potencias','error');return;}
-    if(Object.keys(enA).length<1||Object.keys(enN).length<1){mostrarToast('No se detectaron precios de energia','error');return;}
-
     const dtoA=parseFloat(document.getElementById('t3-actual-dto').value)||0;
     const dtoN=parseFloat(document.getElementById('t3-nueva-dto').value)||0;
-    const mes=parseInt(document.getElementById('t3-mes').value);
-    const dias=diasMes[mes];
+    const unitPotA=document.querySelector('input[name="t3-actual-unit-pot"]:checked').value;
+    const unitPotN=document.querySelector('input[name="t3-nueva-unit-pot"]:checked').value;
 
+    // Read shared kW + prices for each period
+    const kw=[],potPrA=[],potPrN=[],enPrA=[],enPrN=[];
+    let hayDatos=true;
     for(let j=1;j<=6;j++){
-      const p='P'+j;
-      if(potA[p])potActual+=(potA[p].kw*potA[p].precio*dias);
-      if(potN[p])potNueva+=(potN[p].kw*potN[p].precio*dias);
+      kw[j]=parseFloat(document.getElementById(`t3-pot-p${j}-kw`).value)||0;
+      potPrA[j]=parseFloat(document.getElementById(`t3-actual-pot-p${j}`).value);
+      potPrN[j]=parseFloat(document.getElementById(`t3-nueva-pot-p${j}`).value);
+      enPrA[j]=parseFloat(document.getElementById(`t3-actual-en-p${j}`).value);
+      enPrN[j]=parseFloat(document.getElementById(`t3-nueva-en-p${j}`).value);
+      if(isNaN(potPrA[j])||isNaN(potPrN[j])||isNaN(enPrA[j])||isNaN(enPrN[j]))hayDatos=false;
     }
-    const precEnA=aplicarDescuento(enA.P1||Object.values(enA)[0]||0,dtoA);
-    const precEnN=aplicarDescuento(enN.P1||Object.values(enN)[0]||0,dtoN);
-    const consumoEst=500;
-    enActual=consumoEst*precEnA;
-    enNueva=consumoEst*precEnN;
-    datosUsados=`Consumo estimado: ${consumoEst} kWh`;
+    if(!hayDatos){mostrarToast('Completa todos los precios T3 (P1-P6)','error');return;}
 
-  }else{
-    nombreNueva=document.getElementById('t3v-nueva-nombre').value||'Nueva T3';
-    const dtoAVal=parseFloat(document.getElementById('t3v-actual-dto').value)||0;
-    const dtoNVal=parseFloat(document.getElementById('t3v-nueva-dto').value)||0;
-    const mesesDin=generarMesesDinamicos();
+    // Convert pot price to €/kW/day
+    for(let j=1;j<=6;j++){
+      potPrA[j]=unitPotA==='dia'?potPrA[j]:potPrA[j]/365;
+      potPrN[j]=unitPotN==='dia'?potPrN[j]:potPrN[j]/365;
+    }
 
-    for(let p=1;p<=6;p++){
-      const pNum='p'+p;
-      const kw=parseFloat(document.getElementById(`t3-${pNum}-kw`).value)||0;
-      const precioKwA=parseFloat(document.getElementById(`t3v-actual-${pNum}-precio-kw`).value)||0;
-      const precioKwN=parseFloat(document.getElementById(`t3v-nueva-${pNum}-precio-kw`).value)||0;
-      const precioEnA=parseFloat(document.getElementById(`t3v-actual-${pNum}-energia`).value)||0;
-      const precioEnN=parseFloat(document.getElementById(`t3v-nueva-${pNum}-energia`).value)||0;
-      for(let m=0;m<12;m++){
-        const kwh=parseFloat(document.getElementById(`t3-${pNum}-kwh-${m}`).value)||0;
-        const dias=diasMes[mesesDin[m].numero];
-        potActual+=(kw*precioKwA*dias);
-        potNueva+=(kw*precioKwN*dias);
-        enActual+=(kwh*aplicarDescuento(precioEnA,dtoAVal));
-        enNueva+=(kwh*aplicarDescuento(precioEnN,dtoNVal));
+    if(modoT3==='mes'){
+      const mes=parseInt(document.getElementById('t3-mes').value);
+      const dias=diasMes[mes];
+      let totalCons=0;
+      for(let j=1;j<=6;j++){
+        const cons=parseFloat(document.getElementById(`t3-cons-p${j}`).value)||0;
+        totalCons+=cons;
+        potActual+=kw[j]*potPrA[j]*dias;
+        potNueva+=kw[j]*potPrN[j]*dias;
+        enActual+=cons*aplicarDescuento(enPrA[j],dtoA);
+        enNueva+=cons*aplicarDescuento(enPrN[j],dtoN);
       }
+      datosUsados=`Consumo total: ${totalCons.toFixed(0)} kWh`;
+    }else{
+      const mesesDin=generarMesesDinamicos();
+      let totalCons=0;
+      for(let j=1;j<=6;j++){
+        const pNum='p'+j;
+        for(let m=0;m<12;m++){
+          const kwh=parseFloat(document.getElementById(`t3-${pNum}-kwh-${m}`).value)||0;
+          const dias=diasMes[mesesDin[m].numero];
+          totalCons+=kwh;
+          potActual+=kw[j]*potPrA[j]*dias;
+          potNueva+=kw[j]*potPrN[j]*dias;
+          enActual+=kwh*aplicarDescuento(enPrA[j],dtoA);
+          enNueva+=kwh*aplicarDescuento(enPrN[j],dtoN);
+        }
+      }
+      datosUsados=`Consumo anual T3: ${totalCons.toFixed(0)} kWh`;
     }
-    datosUsados='Consumo anual T3: tabla de 12 meses';
   }
 
   guardarDatos();
